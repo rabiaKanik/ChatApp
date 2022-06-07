@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,12 +16,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -76,6 +72,14 @@ fun UserListScreen(userProfiles: List<UserProfile>, navController: NavHostContro
             //icon = Icons.Default.ArrowDropDown
         ) { }
     },
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {}
+            ) {
+                Icon(Icons.Filled.Add,"")
+            }
+        },
         bottomBar = {BottomBar()}
     )
     {
@@ -89,64 +93,10 @@ fun UserListScreen(userProfiles: List<UserProfile>, navController: NavHostContro
                     }
                 }
             }
-
         }
     }
 }
 
-@Composable
-fun BottomBar(){
-    val selectedIndex = remember { mutableStateOf(0) }
-    BottomNavigation(elevation = 10.dp) {
-
-        BottomNavigationItem(icon = {
-            Icon(imageVector = Icons.Default.Home,"")
-        },
-            label = { Text(text = "Sohbet") },
-            selected = (selectedIndex.value == 0),
-            onClick = {
-                selectedIndex.value = 0
-            })
-
-        BottomNavigationItem(icon = {
-            Icon(imageVector = Icons.Default.Inventory,"")
-        },
-            label = { Text(text = "Arşiv") },
-            selected = (selectedIndex.value == 1),
-            onClick = {
-                selectedIndex.value = 1
-            })
-
-        BottomNavigationItem(icon = {
-            Icon(imageVector = Icons.Default.Settings,"")
-        },
-            label = { Text(text = "Profile") },
-            selected = (selectedIndex.value == 2),
-            onClick = {
-                selectedIndex.value = 2
-            })
-    }
-}
-
-@Composable
-fun AppBar(title : String, icon: ImageVector, iconClickAction: ()-> Unit){
-    TopAppBar(
-        navigationIcon = {
-            Icon(
-                icon,
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(
-                        start = 10.dp,
-                        end = 20.dp
-
-                    )
-                    .clickable(onClick = { iconClickAction.invoke() })
-            )
-        },
-        title = { Text(text = title)}
-    )
-}
 @Composable
 fun ProfileCard(userProfile: UserProfile, clickAction:() -> Unit) {
     Card(
@@ -156,7 +106,7 @@ fun ProfileCard(userProfile: UserProfile, clickAction:() -> Unit) {
             .wrapContentHeight(align = Alignment.Top)
             .clickable(onClick = { clickAction.invoke() })
             .size(width = 200.dp, height = 100.dp),
-        elevation = 8.dp,
+        elevation = 5.dp,
         shape = RoundedCornerShape(20.dp),
         backgroundColor = Color.White
     ) {
