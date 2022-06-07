@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -69,8 +71,8 @@ fun UserApplication(userProfiles: List<UserProfile> = userProfileList){
 fun UserListScreen(userProfiles: List<UserProfile>, navController: NavHostController?){
     Scaffold(topBar = {
         AppBar(
-            title = "Users list",
-            icon = Icons.Default.Home,
+            title = "Sohbetler",
+            icon = Icons.Default.Search,
             //icon = Icons.Default.ArrowDropDown
         ) { }
     },
@@ -90,9 +92,8 @@ fun UserListScreen(userProfiles: List<UserProfile>, navController: NavHostContro
 
         }
     }
-
-
 }
+
 @Composable
 fun BottomBar(){
     val selectedIndex = remember { mutableStateOf(0) }
@@ -108,7 +109,7 @@ fun BottomBar(){
             })
 
         BottomNavigationItem(icon = {
-            Icon(imageVector = Icons.Default.MailOutline,"")
+            Icon(imageVector = Icons.Default.Inventory,"")
         },
             label = { Text(text = "Arşiv") },
             selected = (selectedIndex.value == 1),
@@ -125,109 +126,6 @@ fun BottomBar(){
                 selectedIndex.value = 2
             })
     }
-
-
-}
-@Composable
-fun UserProfileDetailsScreen(userId :Int, navController: NavHostController?){
-    val userProfile = userProfileList.first { userProfile -> userId == userProfile.id }
-    Scaffold( topBar = {
-        AppBar(
-        title = "users profile details",
-        icon = Icons.Default.ArrowBack)
-        {
-            navController?.navigateUp()
-        }
-
-    }) {
-        Surface(
-            modifier = Modifier.fillMaxSize()
-        ){
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                ProfilePicture(userProfile.pictureUrl, userProfile.status,240.dp)
-                ProfileContent(userProfile.name, userProfile.status,Alignment.CenterHorizontally)
-                ProfileButtonAction()
-
-            }
-        }
-    }
-}
-
-@Composable
-fun ProfileButtonAction(){
-        Row(
-            Modifier
-                .padding(8.dp)
-
-        ) {
-            Button(
-                onClick = {
-                    // do something here
-                }
-            ) {
-                Column(
-                    modifier = Modifier.padding(12.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Call,
-                        contentDescription = "Localized description"
-                    )
-                    Text(text = "Sesli")
-                }
-
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            Button(
-                onClick = {
-                    // do something here
-                }
-            ) {
-                Column(
-                    modifier = Modifier.padding(12.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Face,
-                        contentDescription = "Localized description"
-                    )
-                    Text(text = "Görüntülü")
-                }
-            }
-
-            Spacer(modifier = Modifier.width(10.dp))
-            Button(
-                onClick = {
-                    // do something here
-                }
-            ) {
-                Column(
-                    modifier = Modifier.padding(12.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = "Localized description"
-                    )
-                    Text(text = "Ara")
-                }
-            }
-        }
-        //Divider(color = Color.Blue, thickness = 1.dp)
-        Card(
-            shape = RoundedCornerShape(10.dp),
-        ) {
-            Text(text = "Medya Bağıntıları")
-
-        }
-
 }
 
 @Composable
@@ -238,7 +136,11 @@ fun AppBar(title : String, icon: ImageVector, iconClickAction: ()-> Unit){
                 icon,
                 contentDescription = "",
                 modifier = Modifier
-                    .padding(horizontal = 12.dp)
+                    .padding(
+                        start = 10.dp,
+                        end = 20.dp
+
+                    )
                     .clickable(onClick = { iconClickAction.invoke() })
             )
         },
@@ -252,7 +154,8 @@ fun ProfileCard(userProfile: UserProfile, clickAction:() -> Unit) {
             .padding(top = 8.dp, bottom = 4.dp, start = 16.dp, end = 16.dp)
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.Top)
-            .clickable(onClick = { clickAction.invoke() }),
+            .clickable(onClick = { clickAction.invoke() })
+            .size(width = 200.dp, height = 100.dp),
         elevation = 8.dp,
         shape = RoundedCornerShape(20.dp),
         backgroundColor = Color.White
@@ -262,7 +165,7 @@ fun ProfileCard(userProfile: UserProfile, clickAction:() -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            ProfilePicture(userProfile.pictureUrl, userProfile.status,72.dp)
+            ProfilePicture(userProfile.pictureUrl, userProfile.status,50.dp)
             ProfileContent(userProfile.name, userProfile.status,Alignment.Start)
 
         }
@@ -277,27 +180,14 @@ fun ProfileContent(userName: String, onlineStatus: Boolean, alignment: Alignment
             .padding(8.dp),
         horizontalAlignment = alignment
     ){
-        CompositionLocalProvider(
-            /*
-            LocalContentAlpha provides (
-                    if(onlineStatus) else ContentAlpha.medium
-                    )
-            AmbientContentAlpha provides(
-                if(onlineStatus)
-                    if else ContentAlpha.medium )
-
-             */
-        ) {
-
-        }
         Text(
             text = userName,
-            style = MaterialTheme.typography.h5
+            fontSize = 18.sp
         )
         CompositionLocalProvider(LocalContentAlpha provides( ContentAlpha.medium)){
             Text(
                 text = if (onlineStatus)"Active Now" else "Offline",
-                style = MaterialTheme.typography.h6
+                fontSize = 16.sp
             )
         }
     }
@@ -308,13 +198,13 @@ fun ProfilePicture(pictureUrl: String, onlineStatus: Boolean, imageSize:Dp) {
     Card(
         shape = CircleShape,
         border = BorderStroke(
-            width = 2.dp,
+            width = 1.dp,
             color = if (onlineStatus)
                 Color.Green
                 else Color.Red
         ),
         modifier = Modifier
-            .padding(16.dp),
+            .padding(14.dp),
         elevation = 4.dp
     ) {
         Image(
@@ -327,19 +217,9 @@ fun ProfilePicture(pictureUrl: String, onlineStatus: Boolean, imageSize:Dp) {
             modifier = Modifier.size(imageSize),
             contentDescription = "Profile picture description",
         )
-
-
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun UserProfileDetailsScreenPreview() {
-    MyTheme{
-        UserProfileDetailsScreen(userId = 0,null)
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
