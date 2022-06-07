@@ -45,7 +45,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 @Composable
 fun UserApplication(userProfiles: List<UserProfile> = userProfileList){
     val navController =  rememberNavController()
