@@ -21,47 +21,7 @@ fun UserChatScreen(){
     }) {
         Surface(modifier = Modifier.fillMaxSize()){
 
-                LazyColumn {
-                    // using TextButton, comes with certain default style and padding
-                    item {
-                        TextButton(modifier = Modifier.fillMaxWidth(), onClick = { }) {
-                            Row {
-                                Icon(
-                                    imageVector = Icons.Filled.Add,
-                                    // painterResource(id = R.drawable.ic_baseline_add_24),
-                                    contentDescription = "New Album"
-                                )
-                                Text("New Album")
-                                Spacer(modifier = Modifier.weight(1f))
-                            }
-                        }
-                    }
 
-                    // divider text
-                    item {
-                        Text(
-                            modifier = Modifier.padding(8.dp),
-                            text = "More",
-                            color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
-                        )
-                    }
-
-                    // using Row with Clickable
-                    item {
-                        Row(
-                            modifier = Modifier.clickable {  }.padding(horizontal = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Add,
-                                // painterResource(id = R.drawable.ic_baseline_add_24),
-                                contentDescription = "New Album"
-                            )
-                            Text("New Album")
-                            // Spacer(modifier = Modifier.weight(1f))
-                        }
-                    }
-                }
             }
         }
 

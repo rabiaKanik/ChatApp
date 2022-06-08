@@ -153,7 +153,7 @@ fun ProfilePicture(pictureUrl: String, onlineStatus: Boolean, imageSize:Dp) {
                 else Color.Red
         ),
         modifier = Modifier
-            .padding(14.dp),
+            .padding(12.dp),
         elevation = 4.dp
     ) {
         Image(
